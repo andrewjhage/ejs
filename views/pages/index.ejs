@@ -1,0 +1,58 @@
+<%- include('../partials/head.ejs') %>
+
+<body>
+    <div class="container">
+        <div class="mt-4 p-5 bg-warning text-white rounded">
+            <h1><%=title %></h1>
+        </div>
+        <%- include('../partials/menu.ejs') %>
+
+        <div class="d-flex flex-column flex-sm-column flex-md-row flex-lg-row">
+            <% data.forEach(function(meeting) { %>  <!-- Singular 'meeting' for each item -->
+
+            <p class="note">
+                <img src="/images/entrance.jpeg">
+                <% if (meeting.mandatory) { %>  <!-- Corrected the variable -->
+                    <span class="takenote">Attendance Mandatory!</span>
+                <% } %>
+                <%= meeting.location %>,   <!-- Corrected the variable -->
+                <%= meeting.dateTime %>,
+                <%= meeting.topic %>,
+                <!-- Button trigger modal -->
+                <% let meetingAsStr = JSON.stringify(meeting); %>  <!-- Corrected the variable -->
+                <button type="button" class="parking btn btn-warning" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#parkingModal" 
+                        id="<%= meeting.id %>" 
+                        data-meeting='<%- meetingAsStr %>'>Parking</button>
+
+            </p>
+            <% }); %>
+        </div>
+        <%- include('../partials/footer.ejs') %>
+    </div>
+    
+    <%- include('../partials/parkingmodal.ejs') %>
+
+    <script src='/data/data.js'></script>
+    <script>
+        
+        let allParkingButtons = document.querySelectorAll('.parking');
+allParkingButtons.forEach((parkingButton) => {
+    parkingButton.addEventListener('click', function(event) {
+        const parkingButton = event.target;
+        let meetingData = parkingButton.getAttribute('data-meeting');
+        console.log("Raw data from button:", meetingData);
+        let meetingObj = JSON.parse(meetingData);
+        console.log("Parsed object:", meetingObj);
+
+        let parking_info_ref = document.querySelector('#parking_info');
+        parking_info_ref.textContent = "Park in " + meetingObj.parking;
+
+        let parking_modal_title_ref = document.querySelector("#parking_for_meeting");
+        parking_modal_title_ref.textContent = "This is the best parking location for " + meetingObj.location;
+    });
+});
+
+    </script>
+</body>
