@@ -12,14 +12,14 @@
 
             <p class="note">
                 <img src="/images/entrance.jpeg">
-                <% if (meeting.mandatory) { %>  <!-- Corrected the variable -->
+                <% if (meeting.mandatory) { %>  
                     <span class="takenote">Attendance Mandatory!</span>
                 <% } %>
-                <%= meeting.location %>,   <!-- Corrected the variable -->
+                <%= meeting.location %>,   
                 <%= meeting.dateTime %>,
                 <%= meeting.topic %>,
                 <!-- Button trigger modal -->
-                <% let meetingAsStr = JSON.stringify(meeting); %>  <!-- Corrected the variable -->
+                <% let meetingAsStr = JSON.stringify(meeting); %>  
                 <button type="button" class="parking btn btn-warning" 
                         data-bs-toggle="modal" 
                         data-bs-target="#parkingModal" 

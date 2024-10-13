@@ -6,16 +6,16 @@ import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import meeting from './public/data/data.js';
 import { getDbConnection, setupDatabase } from './public/data/data.js';  // Import the function, not the database file
-//import { setupDatabase, getDbConnection } from './data/database.db';
+
 
 const app = express();         //Create an instance of Express
 const port = 3000;             // Use port 3000
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.static(__dirname + "/public"));
-app.use(express.json());
+app.use(express.json());   // Middleware to pase JSON requests
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
@@ -62,7 +62,6 @@ app.post('/add_meeting', async (req, res) => {
         try {
             const db = await getDbConnection();
             await db.run('INSERT INTO meeting (topic, mandatory, dateTime, location, parking) VALUES (?, ?, ?, ?, ?)', [topic, is_mandatory, dateTime, location, parking]);
-            // redirect to home route
     res.redirect('/'); // Redirect back to home route
     } catch (err) {
     console.error(err);
